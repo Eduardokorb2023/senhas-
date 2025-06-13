@@ -8,7 +8,7 @@ const simbolos = '!@%*?';
 const botoes = document.querySelectorAll('.parametro-senha__botao');
 const campoSenha = document.querySelector('#campo-senha');
 const checkbox = document.querySelectorAll('.checkbox');
-const forcaSenha = document.querySelector('.forca');
+const barraForcaGerada = document.getElementById('barraForca');
 
 botoes[0].onclick = diminuiTamanho;
 botoes[1].onclick = aumentaTamanho;
@@ -64,14 +64,17 @@ function geraSenha() {
 function classificaSenha(tamanhoAlfabeto) {
     let entropia = tamanhoSenha * Math.log2(tamanhoAlfabeto);
     console.log(entropia);
-    forcaSenha.classList.remove('fraca', 'media', 'forte');
+
+    barraForcaGerada.classList.remove('fraca', 'media', 'forte');
+
     if (entropia > 57) {
-        forcaSenha.classList.add('forte');
-    } else if (entropia > 30 && entropia < 57) {
-        forcaSenha.classList.add('media');
-    } else if (entropia <= 30) {
-        forcaSenha.classList.add('fraca');
+        barraForcaGerada.classList.add('forte');
+    } else if (entropia > 30 && entropia <= 57) {
+        barraForcaGerada.classList.add('media');
+    } else {
+        barraForcaGerada.classList.add('fraca');
     }
+
     const valorEntropia = document.querySelector('.entropia');
     valorEntropia.textContent = "Um computador pode levar até " + Math.floor(2 ** entropia / (100e6 * 60 * 60 * 24)) + " dias para descobrir essa senha.";
 }
@@ -118,4 +121,38 @@ function iniciarFalaEAnimacao() {
   mensagem.onend = () => {
     clearInterval(intervaloReposicionar);  
   };
+}
+
+
+
+const campoSenhasua = document.getElementById('senhaUsuario');
+const barraForca = document.getElementById('barraForca');
+const textoForca = document.getElementById('textoForca');
+
+campoSenhasua.addEventListener('input', function () {
+  const senha = campoSenhasua.value;
+  verificaForca(senha);
+});
+
+function verificaForca(senha) {
+  let pontuacao = 0;
+  if (senha.length >= 8) pontuacao++;
+  if (/[A-Z]/.test(senha)) pontuacao++;
+  if (/[a-z]/.test(senha)) pontuacao++;
+  if (/[0-9]/.test(senha)) pontuacao++;
+  if (/[^A-Za-z0-9]/.test(senha)) pontuacao++;
+
+  // Remove todas as classes
+  barraForca.classList.remove('fraca', 'media', 'forte');
+
+  if (pontuacao <= 2) {
+    barraForca.classList.add('fraca');
+    textoForca.textContent = 'Força da senha: Fraca';
+  } else if (pontuacao <= 4) {
+    barraForca.classList.add('media');
+    textoForca.textContent = 'Força da senha: Média';
+  } else {
+    barraForca.classList.add('forte');
+    textoForca.textContent = 'Força da senha: Forte';
+  }
 }

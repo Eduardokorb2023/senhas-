@@ -17,9 +17,14 @@
         </div>
 
            <div class="conteudo-mensagen">
-         <label for="mensagem">escreva sua senha</label>
+         <label for="nome">Seu nome:</label>
+<input type="text" id="nome" placeholder="Digite seu nome">
+
+         
         </div>
         
+
+
         <div class="conteudo-senha">
            
             <label for="senha">Senha</label>
@@ -70,6 +75,31 @@
         </div>
     </section>
     <script src="main.js"></script>
+
+
+
 </body>
 
 </html>
+
+<div class="conteudo-senha">
+  <label for="senhaUsuario">Digite sua senha:</label><br>
+  <input type="password" id="senhaUsuario" placeholder="Digite sua senha">
+
+  <div class="parametro-senha">
+    <h4 class="parametro-senha__titulo">Força da senha</h4>
+    
+    <div class="barra">
+      <div id="barraForca" class="forca"></div>
+    </div>
+
+    <div class="parametro-senha-textos">
+      <p>Fraca</p>
+      <p>Média</p>
+      <p>Forte</p>
+    </div>
+
+    <p id="textoForca" class="texto-forca">Força da senha:</p>
+  </div>
+</div>
+
