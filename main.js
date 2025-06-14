@@ -8,7 +8,7 @@ const simbolos = '!@%*?';
 const botoes = document.querySelectorAll('.parametro-senha__botao');
 const campoSenha = document.querySelector('#campo-senha');
 const checkbox = document.querySelectorAll('.checkbox');
-const barraForcaGerada = document.getElementById('barraForca');
+const forcaSenha = document.querySelector('.forca');
 
 botoes[0].onclick = diminuiTamanho;
 botoes[1].onclick = aumentaTamanho;
@@ -64,22 +64,21 @@ function geraSenha() {
 function classificaSenha(tamanhoAlfabeto) {
     let entropia = tamanhoSenha * Math.log2(tamanhoAlfabeto);
     console.log(entropia);
-
-    barraForcaGerada.classList.remove('fraca', 'media', 'forte');
-
+    forcaSenha.classList.remove('fraca', 'media', 'forte');
     if (entropia > 57) {
-        barraForcaGerada.classList.add('forte');
-    } else if (entropia > 30 && entropia <= 57) {
-        barraForcaGerada.classList.add('media');
-    } else {
-        barraForcaGerada.classList.add('fraca');
+        forcaSenha.classList.add('forte');
+    } else if (entropia > 35 && entropia < 57) {
+        forcaSenha.classList.add('media');
+    } else if (entropia <= 35) {
+        forcaSenha.classList.add('fraca');
     }
-
     const valorEntropia = document.querySelector('.entropia');
     valorEntropia.textContent = "Um computador pode levar até " + Math.floor(2 ** entropia / (100e6 * 60 * 60 * 24)) + " dias para descobrir essa senha.";
 }
 
- const synth = window.speechSynthesis;
+
+
+const synth = window.speechSynthesis;
   const mensagem = new SpeechSynthesisUtterance(texto.textContent);
   mensagem.onend = () => {
     clearInterval(intervaloReposicionar);  
@@ -125,34 +124,59 @@ function iniciarFalaEAnimacao() {
 
 
 
-const campoSenhasua = document.getElementById('senhaUsuario');
-const barraForca = document.getElementById('barraForca');
-const textoForca = document.getElementById('textoForca');
+ function mostrarSenha() {
+      const campo = document.getElementById("senha");
+      campo.type = campo.type === "password" ? "text" : "password";
+    }
 
-campoSenhasua.addEventListener('input', function () {
-  const senha = campoSenhasua.value;
-  verificaForca(senha);
-});
+    function avaliarSenha() {
+      const senha = document.getElementById("senha").value;
+      const barra = document.getElementById("barraForca");
+      const textoEntropia = document.getElementById("textoEntropia");
 
-function verificaForca(senha) {
-  let pontuacao = 0;
-  if (senha.length >= 8) pontuacao++;
-  if (/[A-Z]/.test(senha)) pontuacao++;
-  if (/[a-z]/.test(senha)) pontuacao++;
-  if (/[0-9]/.test(senha)) pontuacao++;
-  if (/[^A-Za-z0-9]/.test(senha)) pontuacao++;
+      const letrasMaiusculas = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const letrasMinusculas = 'abcdefghijklmnopqrstuvwxyz';
+      const numeros = '0123456789';
+      const simbolos = '!@%*?';
 
-  // Remove todas as classes
-  barraForca.classList.remove('fraca', 'media', 'forte');
+      let alfabeto = '';
 
-  if (pontuacao <= 2) {
-    barraForca.classList.add('fraca');
-    textoForca.textContent = 'Força da senha: Fraca';
-  } else if (pontuacao <= 4) {
-    barraForca.classList.add('media');
-    textoForca.textContent = 'Força da senha: Média';
+      if (/[A-Z]/.test(senha)) alfabeto += letrasMaiusculas;
+      if (/[a-z]/.test(senha)) alfabeto += letrasMinusculas;
+      if (/[0-9]/.test(senha)) alfabeto += numeros;
+      if (/[^A-Za-z0-9]/.test(senha)) alfabeto += simbolos;
+
+      const tamanhoSenha = senha.length;
+      const tamanhoAlfabeto = alfabeto.length || 1;
+
+      const entropia = tamanhoSenha * Math.log2(tamanhoAlfabeto);
+      const dias = Math.floor(2 ** entropia / (100e6 * 60 * 60 * 24)); 
+
+      // Atualiza barra de força
+      barra.classList.remove("fraca", "media", "forte");
+      if (entropia > 57) {
+        barra.classList.add("forte");
+      } else if (entropia > 30) {
+        barra.classList.add("media");
+      } else {
+        barra.classList.add("fraca");
+      }
+
+  
+  barra.classList.remove("fraca", "media", "forte");
+
+  let comentarioFinal = "";
+  if (entropia > 65) {
+    barra.classList.add("forte");
+    comentarioFinal = "seguro";
+  } else if (entropia > 32) {
+    barra.classList.add("media");
+    comentarioFinal = "bom";
   } else {
-    barraForca.classList.add('forte');
-    textoForca.textContent = 'Força da senha: Forte';
+    barra.classList.add("fraca");
+    comentarioFinal = "cuidado";
   }
+
+  textoEntropia.textContent =
+    `Força da senha: ${entropia.toFixed(1)} bits – um computador pode levar até ${dias} dias para descobrir. ${comentarioFinal}`;
 }

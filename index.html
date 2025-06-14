@@ -11,23 +11,12 @@
 <body>
     <section class="conteudo">
         <div class="conteudo-titulo">
-            <img src="unlock.svg" alt="cadeado fechado">
-            <h2 class="titulo-principal">Gerador de senhas</h2>
-            <h3 class="titulo-secundario">Gere instantaneamente uma senha aleatória e segura</h3>
+          <img src="safe-and-stable-svgrepo-com.svg" alt="cadeado fechado" width="50" height="50">
+            <h2 class="titulo-principal">Gerador de senha e testador </h2>
+            <h3 class="titulo-secundario">Gere instantaneamente senhas e teste as já.</h3>
         </div>
-
-           <div class="conteudo-mensagen">
-         <label for="nome">Seu nome:</label>
-<input type="text" id="nome" placeholder="Digite seu nome">
-
-         
-        </div>
-        
-
-
         <div class="conteudo-senha">
-           
-            <label for="senha">Senha</label>
+            <label for="senha">Senha aleatória:</label>
             <input name="senha" type="text" id="campo-senha" readonly>
         </div>
         <div class="parametro">
@@ -78,28 +67,22 @@
 
 
 
+
+
+    <label for="senha">Digite sua senha:</label>
+  <div class="campo-senha">
+    <input type="password" id="senha" oninput="avaliarSenha()" />
+    <span class="toggle" onclick="mostrarSenha()">👁️</span>
+  </div>
+
+  <div class="barra" id="barraForca"></div>
+  <div class="rotulos">
+    <span>Fraca</span>
+    <span>Média</span>
+    <span>Forte</span>
+  </div>
+
+  <div class="entropia" id="textoEntropia">Força da senha:</div>
 </body>
 
 </html>
-
-<div class="conteudo-senha">
-  <label for="senhaUsuario">Digite sua senha:</label><br>
-  <input type="password" id="senhaUsuario" placeholder="Digite sua senha">
-
-  <div class="parametro-senha">
-    <h4 class="parametro-senha__titulo">Força da senha</h4>
-    
-    <div class="barra">
-      <div id="barraForca" class="forca"></div>
-    </div>
-
-    <div class="parametro-senha-textos">
-      <p>Fraca</p>
-      <p>Média</p>
-      <p>Forte</p>
-    </div>
-
-    <p id="textoForca" class="texto-forca">Força da senha:</p>
-  </div>
-</div>
-
