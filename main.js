@@ -15,7 +15,6 @@ botoes[1].onclick = aumentaTamanho;
 
 function diminuiTamanho() {
     if (tamanhoSenha > 1) {
-        // tamanhoSenha = tamanhoSenha-1;
         tamanhoSenha--;
     }
     numeroSenha.textContent = tamanhoSenha;
@@ -23,7 +22,6 @@ function diminuiTamanho() {
 }
 function aumentaTamanho() {
     if (tamanhoSenha < 20) {
-        // tamanhoSenha = tamanhoSenha+1;
         tamanhoSenha++;
     }
     numeroSenha.textContent = tamanhoSenha;
@@ -152,7 +150,6 @@ function iniciarFalaEAnimacao() {
       const entropia = tamanhoSenha * Math.log2(tamanhoAlfabeto);
       const dias = Math.floor(2 ** entropia / (100e6 * 60 * 60 * 24)); 
 
-      // Atualiza barra de força
       barra.classList.remove("fraca", "media", "forte");
       if (entropia > 57) {
         barra.classList.add("forte");
